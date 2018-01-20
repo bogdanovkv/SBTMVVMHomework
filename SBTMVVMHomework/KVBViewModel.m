@@ -40,7 +40,7 @@
 
 -(void)counterHasChanged:(NSInteger)counter
 {
-    [self.kindOfView updateCounter:counter];
+
 }
 
 

@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "KVBViewModel.h"
-
+#import "KVBModel.h"
 
 @interface ViewController ()
 
@@ -46,11 +46,27 @@
     [self.view addSubview:self.counterLabel];
     [self.view addSubview:self.incrementButton];
     [self.view addSubview:self.decrementButton];
+    
+    static void *KVBKVOContext = &KVBKVOContext;
+
+    
+    [self.viewModel.model addObserver:self
+              forKeyPath:@"counter"
+              options:NSKeyValueObservingOptionNew
+                 context:KVBKVOContext];
+    
 
     // Do any additional setup after loading the view, typically from a nib.
 }
 
-
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    KVBModel *model = (KVBModel*)object;
+    
+    [self updateCounter:model.counter];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
